@@ -68,3 +68,8 @@ The key variable associated with precipitation datasets is the precipitation in 
 * The median number of sports balls in a dumpster in 2019 is `r trashwheel_df %>% filter(year == 2019) %>% pull(sports_balls) %>% median()`.
 
 
+## Problem 2:
+
+Clean `pols-month.csv` data. 
+
+
