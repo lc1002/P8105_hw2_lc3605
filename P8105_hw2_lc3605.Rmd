@@ -11,3 +11,12 @@ library(readxl)
 ```
 
 
+## Problem 1:
+
+Reading and cleaning **Mr. Trash Wheel** sheet.
+
+```{r trashwheel_df}
+trashwheel_df = 
+  read_xlsx("data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+            range = cell_cols("A:N"))
+```
