@@ -61,5 +61,11 @@ precip_df =
   mutate(month = as.character(month))
 ```
 
+The **Mr. Trash Wheel** data contains information on the date, weight of trash, type of trash collected and the number of houses powered. The number of observations recorded in the **Mr.Trashwheel** and the **precipitation** datasets are `r nrow(trashwheel_df)` and `r nrow(precip_df)`, respectively. 
+The key variable associated with precipitation datasets is the precipitation in inches, which quantifies the amount of precipitation recorded. 
+
+* The total precipitation in 2018 is `r precip_df %>% filter(year == 2018) %>% pull(total) %>% sum()` inches. 
+* The median number of sports balls in a dumpster in 2019 is `r trashwheel_df %>% filter(year == 2019) %>% pull(sports_balls) %>% median()`.
+
 
 
