@@ -70,6 +70,68 @@ The key variable associated with precipitation datasets is the precipitation in 
 
 ## Problem 2:
 
-Clean `pols-month.csv` data. 
+First, clean `pols-month.csv` data. 
 
+```{r pols-month}
+pols_month_df = 
+  read_csv("fivethirtyeight_datasets/pols-month.csv") %>% 
+  janitor::clean_names() %>% 
+  separate(mon, into = c("year", "month", "day")) %>% 
+  mutate(year = as.integer(year),
+         month = as.integer(month),
+         day = as.integer(day),
+         month = month.name[month]) %>% 
+  mutate(president = recode(prez_dem, `1` = "dem", `0` = "gop")) %>% 
+  select(-prez_dem, -prez_gop, -day)
+```
 
+Second, clean the data in `snp.csv`.
+
+```{r snp}
+snp_df = 
+  read_csv("fivethirtyeight_datasets/snp.csv") %>%
+  janitor::clean_names() %>% 
+  mutate(date = as.Date(date, format = "%m/%d/%Y")) %>% 
+  separate(date, into = c("year", "month", "day")) %>% 
+  mutate(
+    year = as.integer(year),
+    year = ifelse(year <= 15, year + 2000, year + 1900), 
+    month = as.integer(month), 
+    day = as.integer(day)) %>%
+  arrange(year, month) %>% 
+  mutate(month = month.name[month]) %>% 
+  select(-day)
+```
+
+Third, tidy the `unemployment` data and merge with previous datasets. 
+
+```{r unemployment}
+unemployment_df = 
+  read_csv("fivethirtyeight_datasets/unemployment.csv") %>% 
+  janitor::clean_names() %>% 
+  pivot_longer(
+    jan:dec,
+    names_to = "month",
+    values_to = "unemployment"
+    ) %>% 
+  mutate(month = as.factor(month),
+         year = as.integer(year),
+         month = as.integer(month),
+         month = month.name[month])
+```
+
+Merge datasets!!
+
+```{r merge}
+pols_snp_df = left_join(pols_month_df, snp_df, by = c("year", "month")) 
+
+pols_snp_unemployment_merge = left_join(pols_snp_df, unemployment_df, by = c("year", "month"))
+```
+
+The **pols-month** data contains `r nrow(pols_month_df)` observations of `r ncol(pols_month_df)` variables related to the number of national politicians who are democratic or republican over the given years. 
+
+The **snp** data contains `r nrow(snp_df)` observations of `r ncol(snp_df)` variables related to Standard & Poor’s stock market index from year `r min(select(snp_df,year))` to `r max(select(snp_df,year))`. 
+
+The **unemployment** dataset contains `r nrow(unemployment_df)` observations of `r ncol(unemployment_df)` variables outlining the percentage of unemployment in a given month and year.
+
+Lastly, the merged dataset consists of `r names(pols_snp_unemployment_merge)` variables and contains `r nrow(pols_snp_unemployment_merge)` rows and `r ncol(pols_snp_unemployment_merge)` columns. The data presented is from year `r min(select(pols_snp_unemployment_merge,year))` through `r max(select(pols_snp_unemployment_merge,year))`.  
