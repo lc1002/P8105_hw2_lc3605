@@ -159,7 +159,7 @@ baby_names_df =
 
 Create a table showing the rank in popularity of the name “Olivia” as a female baby name over time.
 
-```{r}
+```{r olivia table}
 olivia_name = 
   filter(
     baby_names_df, 
@@ -175,7 +175,7 @@ knitr::kable(olivia_name)
 
 Create a table showing the most popular name among male children over time.
 
-```{r}
+```{r popular male name table}
 popular_male_name = 
   filter(baby_names_df,
          gender == "Male",
@@ -186,5 +186,20 @@ popular_male_name =
     values_from = "childs_first_name")
 
 knitr::kable(popular_male_name)
+```
+
+Create a scatter plot showing the number of children with a name (y axis) against the rank in popularity of that name (x axis) for male, white non-hispanic children born in 2016.
+
+```{r scatter plot}
+plot_df = 
+  filter(baby_names_df,
+         gender == "Male",
+         ethnicity == "White Non Hispanic",
+         year_of_birth == 2016)
+ggplot(plot_df, aes(x = rank, y = count)) + 
+geom_point() +
+ggtitle("Name ranks of Male White Non-Hispanic children born in 2016") +
+xlab("Rank") +
+ylab("Count")
 ```
 
