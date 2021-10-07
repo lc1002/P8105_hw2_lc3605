@@ -135,3 +135,25 @@ The **snp** data contains `r nrow(snp_df)` observations of `r ncol(snp_df)` vari
 The **unemployment** dataset contains `r nrow(unemployment_df)` observations of `r ncol(unemployment_df)` variables outlining the percentage of unemployment in a given month and year.
 
 Lastly, the merged dataset consists of `r names(pols_snp_unemployment_merge)` variables and contains `r nrow(pols_snp_unemployment_merge)` rows and `r ncol(pols_snp_unemployment_merge)` columns. The data presented is from year `r min(select(pols_snp_unemployment_merge,year))` through `r max(select(pols_snp_unemployment_merge,year))`.  
+
+
+## Problem 3: 
+
+Load and tidy `popular_baby_names` data.
+
+```{r, message = FALSE}
+baby_names_df = 
+  read_csv("data/Popular_Baby_Names.csv") %>% 
+  janitor::clean_names() %>% 
+  mutate(
+    ethnicity = recode(
+      ethnicity,
+      "BLACK NON HISP" = "BLACK NON HISPANIC",
+      "WHITE NON HISP" = "WHITE NON HISPANIC", 
+      "ASIAN AND PACI" = "ASIAN AND PACIFIC ISLANDER"),
+    childs_first_name = str_to_title(childs_first_name),
+    gender = str_to_title(gender),
+    ethnicity = str_to_title(ethnicity)) %>% 
+  distinct()
+```
+
