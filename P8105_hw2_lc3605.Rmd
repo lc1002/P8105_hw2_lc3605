@@ -157,3 +157,34 @@ baby_names_df =
   distinct()
 ```
 
+Create a table showing the rank in popularity of the name “Olivia” as a female baby name over time.
+
+```{r}
+olivia_name = 
+  filter(
+    baby_names_df, 
+    childs_first_name == "Olivia",
+    gender == "Female") %>% 
+  select(-count,-gender,-childs_first_name) %>% 
+  pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "rank") 
+
+knitr::kable(olivia_name)
+```
+
+Create a table showing the most popular name among male children over time.
+
+```{r}
+popular_male_name = 
+  filter(baby_names_df,
+         gender == "Male",
+         rank == 1) %>% 
+  select(-rank,-count,-gender) %>% 
+  pivot_wider(
+    names_from = "year_of_birth",
+    values_from = "childs_first_name")
+
+knitr::kable(popular_male_name)
+```
+
