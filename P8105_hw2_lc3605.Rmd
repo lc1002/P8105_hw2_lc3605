@@ -18,7 +18,7 @@ Reading and cleaning **Mr. Trash Wheel** sheet.
 ```{r trashwheel_df}
 trashwheel_df = 
   read_xlsx(
-    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    "data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
     sheet = "Mr. Trash Wheel",
     range = cell_cols("A:N")) %>%
   janitor::clean_names() %>% 
@@ -34,7 +34,7 @@ Read and clean precipitation data for 2018 and 2019.
 ```{r 2018 and 2019}
 precip_2018 = 
   read_xlsx(
-    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    "data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
     sheet = "2018 Precipitation",
     skip = 1) %>% 
   janitor::clean_names() %>% 
@@ -44,7 +44,7 @@ precip_2018 =
 
 precip_2019 = 
   read_xlsx(
-    "data/Trash-Wheel-Collection-Totals-8-6-19.xlsx",
+    "data/Trash-Wheel-Collection-Totals-7-2020-2.xlsx",
     sheet = "2019 Precipitation",
     skip = 1) %>% 
   janitor::clean_names() %>% 
